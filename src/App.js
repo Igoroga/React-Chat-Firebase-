@@ -1,24 +1,26 @@
-import logo from './logo.svg';
+import {BrowserRouter} from "react-router-dom"
 import './App.css';
+import AppRouter from "./components/AppRouter";
+import MenuAppBar from "./components/MenuAppBar";
+import { getAuth } from "firebase/auth";
+import {useAuthState} from "react-firebase-hooks/auth"
+import Loader from "./components/Loader";
 
 function App() {
+  const auth = getAuth();
+  const [user, loading, error] = useAuthState(auth)
+
+  if (loading) {
+    return(
+    <Loader/>
+    )
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+    <MenuAppBar/>
+    <AppRouter/>
+    </BrowserRouter>
   );
 }
 
